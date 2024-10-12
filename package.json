@@ -2,9 +2,10 @@
   "name": "file-manager",
   "version": "1.0.0",
   "description": "node.js",
-  "main": "src/index.mjs",
+  "main": "src/index.js",
+  "type": "module",
   "scripts": {
-    "start": "node src/script.mjs",
+    "start": "node src/index.js --username=Pavel",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Pavel Yakutovich",
