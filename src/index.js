@@ -4,6 +4,8 @@ import { createInterface } from "readline";
 import { cd } from "./commands/cd.js";
 import {up} from "./commands/up.js"
 import { ls } from "./commands/ls.js";
+import {cat} from "./commands/cat.js";
+import {add} from "./commands/add.js"
 
 const args = process.argv.slice(2);
 const username = args.find(arg => arg.startsWith('--username='))?.split('=')[1] || 'default';
@@ -25,7 +27,14 @@ rl.on('line', (input) => {
      cd(targetDir)
     } else if (command === 'ls') {
         ls()
-    } else {
+    } else if (command.startsWith('cat ')) {
+      const filePath = command.slice(4);
+      cat(filePath);
+    } else if (command.startsWith("add")){
+      const fileName = command.slice(4);
+      add(fileName);
+    }
+    else {
       console.log("Неверная команда.");
     }
     rl.setPrompt(`\x1b[32m ${process.cwd()}>\x1b[0m`);
