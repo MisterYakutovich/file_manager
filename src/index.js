@@ -5,7 +5,11 @@ import { cd } from "./commands/cd.js";
 import {up} from "./commands/up.js"
 import { ls } from "./commands/ls.js";
 import {cat} from "./commands/cat.js";
-import {add} from "./commands/add.js"
+import {add} from "./commands/add.js";
+import {rn} from "./commands/rn.js";
+import {cp} from "./commands/cp.js";
+import {mv} from "./commands/mv.js";
+import {rm} from "./commands/rm.js"
 
 const args = process.argv.slice(2);
 const username = args.find(arg => arg.startsWith('--username='))?.split('=')[1] || 'default';
@@ -33,6 +37,18 @@ rl.on('line', (input) => {
     } else if (command.startsWith("add")){
       const fileName = command.slice(4);
       add(fileName);
+    }else  if (command.startsWith('rn ')) {
+      const [oldPath, newPath] = command.slice(3).split(' ');
+      rn(oldPath, newPath);
+    }else if (command.startsWith('cp ')) {
+      const [srcPath, destPath] = command.slice(3).split(' ');
+      cp(srcPath, destPath);
+    }else  if (command.startsWith('mv ')) {
+      const [srcPath, destPath] = command.slice(3).split(' ');
+      mv(srcPath, destPath);
+    }else if (command.startsWith('rm ')) {
+      const filePath = command.slice(3);
+      rm(filePath);
     }
     else {
       console.log("Неверная команда.");
