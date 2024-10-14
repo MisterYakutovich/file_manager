@@ -18,9 +18,12 @@ import { getArchitecture } from "./commands/getArchitecture.js";
 import { calculateHash } from "./commands/hash.js";
 import { compressFile } from "./commands/compress.js";
 import { decompressFile } from "./commands/decompress.js";
-
 const args = process.argv.slice(2);
-const username = args.find(arg => arg.startsWith('--username='))?.split('=')[1] || 'default';
+const usernameArg = args.find(arg => arg.startsWith('--username=Pavel'));
+let username = 'default';
+if (usernameArg) {
+  username = usernameArg.split('=')[1];
+}
 console.log(`Welcome to the File Manager, ${username}!`);
 process.chdir(os.homedir());
 console.log(`You are currently in ${process.cwd()}`)
