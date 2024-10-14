@@ -15,6 +15,9 @@ import { getCpus } from "./commands/getCpus.js";
 import { getHomeDir } from "./commands/getHomeDir.js";
 import { getUsername } from "./commands/getUserName.js";
 import { getArchitecture } from "./commands/getArchitecture.js";
+import { calculateHash } from "./commands/hash.js";
+import { compressFile } from "./commands/compress.js";
+import { decompressFile } from "./commands/decompress.js";
 
 const args = process.argv.slice(2);
 const username = args.find(arg => arg.startsWith('--username='))?.split('=')[1] || 'default';
@@ -29,6 +32,7 @@ rl.prompt();
 
 rl.on('line', (input) => {
     const command = input.trim();
+  try {
     if (command === 'up') {
         up()
     } else if (command.startsWith('cd ')) {
@@ -64,10 +68,26 @@ rl.on('line', (input) => {
       getUsername();
     }else if (command.startsWith('os --architecture')) {
       getArchitecture();
+    }else if (command.startsWith('hash')) {
+      const filePath = command.split(' ')[1];
+      calculateHash(filePath);
+    }else if (command.startsWith('compress')) {
+     const srcPath = command.split(' ')[1];
+      const destPath = command.split(' ')[2];
+      compressFile(srcPath, destPath);
+    } else if (command.startsWith('decompress')) {
+      const srcPath = command.split(' ')[1];
+      const destPath = command.split(' ')[2];
+      decompressFile(srcPath, destPath);
     } 
     else {
       console.log("Неверная команда.");
     }
+  }catch (error) {
+    console.error(`Error: ${error.message}`);
+  }
+
+  
     rl.setPrompt(`\x1b[32m ${process.cwd()}>\x1b[0m`);
     rl.prompt();
   });
